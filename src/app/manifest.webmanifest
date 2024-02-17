@@ -1,0 +1,6 @@
+{
+  "name": "Hello World",
+  "short_name": "Hello",
+  "description": "A template built with Next.js",
+  "start_url": "/"
+}
