@@ -1,5 +1,5 @@
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
 import { Card, CardBody, Button } from '@nextui-org/react';
 import Image from 'next/image';
 

@@ -1,39 +1,39 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Providers from './providers';
-import { strings } from './constants';
-import './globals.css';
+import Providers from '@/app/providers';
+import siteConfig from '@config/site';
+import '@/app/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: strings.site.title,
-  description: strings.site.description,
+  title: siteConfig.title,
+  description: siteConfig.description,
   openGraph: {
-    title: strings.site.title,
-    description: strings.site.description,
-    siteName: strings.site.name,
-    url: new URL(strings.site.url),
-    type: strings.site.type,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    url: new URL(siteConfig.links.url),
+    type: siteConfig.metadata.type,
   },
   twitter: {
-    creator: strings.twitter.creator,
+    creator: siteConfig.metadata.twitter.creator,
   },
-  keywords: strings.site.keywords,
-  authors: strings.site.author,
-  manifest: strings.manifestUrl,
-  metadataBase: new URL(strings.site.url),
+  keywords: siteConfig.metadata.keywords,
+  authors: siteConfig.metadata.author,
+  manifest: siteConfig.metadata.manifestUrl,
+  metadataBase: new URL(siteConfig.links.url),
   robots: {
     index: true,
     follow: true,
     noarchive: true,
     nocache: true,
   },
-  referrer: strings.site.referrer,
-  generator: strings.site.generator,
-  creator: strings.site.author.name,
-  publisher: strings.site.publisher,
-  category: strings.site.category,
+  referrer: siteConfig.metadata.referrer,
+  generator: siteConfig.metadata.generator,
+  creator: siteConfig.metadata.author.name,
+  publisher: siteConfig.metadata.publisher,
+  category: siteConfig.metadata.category,
 };
 
 const RootLayout = ({

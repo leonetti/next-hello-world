@@ -1,5 +1,5 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
 import { Card, CardBody, Button } from '@nextui-org/react';
 import Image from 'next/image';
 
@@ -15,7 +15,7 @@ const About = () => {
             <div className="flex flex-col gap-6 items-center justify-center text-center">
               <Image
                 alt="Diving"
-                className="w-80 h-auto object-cover"
+                className="w- h-auto object-cover"
                 src={diving}
               />
               <div className="flex-1">
