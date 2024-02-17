@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Providers from './providers';
 import { strings } from './constants';
 import './globals.css';
 
@@ -35,17 +36,20 @@ export const metadata: Metadata = {
   category: strings.site.category,
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <html lang="en">
-      <head>
-        <meta content="text/html; charset=utf-8" httpEquiv="Content-Type" />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Providers>
+          <main>{children}</main>
+        </Providers>
+      </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
