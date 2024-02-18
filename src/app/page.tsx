@@ -17,6 +17,7 @@ const Home = () => {
                 alt="Work"
                 className="w-48 h-auto object-cover"
                 src={work}
+                priority
               />
               <div className="flex-1">
                 <h2 className="text-lg font-bold uppercase">Work</h2>

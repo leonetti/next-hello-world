@@ -17,6 +17,7 @@ const About = () => {
                 alt="Diving"
                 className="w- h-auto object-cover"
                 src={diving}
+                priority
               />
               <div className="flex-1">
                 <h2 className="text-lg font-bold uppercase">Diver</h2>

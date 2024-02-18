@@ -16,6 +16,32 @@ const config: Config = {
       screens: {
         xs: '475px',
       },
+      colors: {
+        primary: {
+          DEFAULT: '#2196F3',
+          100: '#BBDEFB',
+          500: '#2196F3',
+          900: '#0D47A1',
+        },
+        secondary: {
+          DEFAULT: '#FF7043',
+          100: '#FBE9E7',
+          500: '#FF7043',
+          900: '#BF360C',
+        },
+        neutral: {
+          DEFAULT: '#9E9E9E',
+          100: '#F5F5F5',
+          500: '#9E9E9E',
+          900: '#212121',
+        },
+        accent: {
+          DEFAULT: '#FFEB3B',
+          100: '#FFF9C4',
+          500: '#FFEB3B',
+          900: '#F57F17',
+        },
+      },
     },
   },
   darkMode: 'class',

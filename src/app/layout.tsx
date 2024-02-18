@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Providers from '@/app/providers';
 import siteConfig from '@/config/site';
 import '@/app/globals.css';
+import { getCookie } from 'cookies-next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -41,21 +42,9 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const theme = getCookie('theme') || 'light';
   return (
-    <html lang="en">
-      <head>
-        {/* used for light/dark theme toggle */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-                (function() {
-                  const theme = localStorage.getItem('theme') || 'light';
-                  document.documentElement.setAttribute('data-theme', theme);
-                })();
-              `,
-          }}
-        />
-      </head>
+    <html lang="en" data-theme={theme}>
       <body className={inter.className}>
         <Providers>
           <main>{children}</main>
