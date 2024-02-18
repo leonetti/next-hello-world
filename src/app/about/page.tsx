@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Card, CardBody, Button } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import Image from 'next/image';
 
 import diving from '@public/images/diving.webp';
