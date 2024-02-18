@@ -4,7 +4,7 @@ import Providers from '@/app/providers';
 import siteConfig from '@/config/site';
 import { cookies } from 'next/headers';
 import '@/app/globals.css';
-import { Theme } from '@/types/globals';
+import { Theme, type ThemeProps } from '@/types/globals';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,12 +44,14 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   const cookieStore = cookies();
-  const themeCookie = (cookieStore.get('theme')?.value as Theme) ?? 'auto';
+  const theme = (cookieStore.get('theme')?.value as ThemeProps) ?? Theme.auto;
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme={theme}>
       <body className={inter.className}>
-        <Providers themeCookie={themeCookie}>{children}</Providers>
+        <Providers>
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );

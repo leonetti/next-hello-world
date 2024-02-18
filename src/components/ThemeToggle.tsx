@@ -1,44 +1,66 @@
 'use client';
 
-import { useContext, useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
+  // Switch,
   Button,
 } from '@nextui-org/react';
-import { BsSunFill, BsMoonFill } from 'react-icons/bs';
-import { RiSettings5Fill } from 'react-icons/ri';
+// import { BsSunFill, BsMoonFill } from 'react-icons/bs';
+// import { RiSettings5Fill } from 'react-icons/ri';
 import { Theme, type ThemeProps } from '@/types/globals';
-import { Selection } from '@react-types/shared';
+import { ThemeToggleIcon } from '@/components/ThemeToggleIcon';
 
-import { ThemeContext } from '@/context/ThemeContext';
+const deriveNextTheme = (currentTheme: ThemeProps) => {
+  switch (currentTheme) {
+    case Theme.light:
+      return Theme.dark;
+    case Theme.dark:
+      return Theme.light;
+    case Theme.auto:
+    default:
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? Theme.light
+        : Theme.dark;
+  }
+};
+
+export const isTheme = (value: unknown): value is Theme =>
+  value === Theme.auto || value === Theme.light || value === Theme.dark;
 
 const ThemeToggle = () => {
-  const { currentTheme, toggle, nextTheme } = useContext(ThemeContext);
-  const [selectedKeys, setSelectedKeys] = useState(new Set([Theme.auto]));
+  const [currentTheme, setCurrentTheme] = useState(Theme.auto);
 
-  const handleSelectionChange = (keys: Selection): void => {
-    const selectedSet = new Set(keys as Iterable<ThemeProps>);
-    setSelectedKeys(selectedSet);
-    handleChange();
-  };
+  useEffect(() => {
+    const dataTheme = document.documentElement.dataset.theme;
+    setCurrentTheme(isTheme(dataTheme) ? dataTheme : Theme.auto);
+  }, []);
 
-  const selectedIcon = useMemo(() => {
-    switch (currentTheme) {
-      case Theme.light:
-        return <BsSunFill />;
-      case Theme.dark:
-        return <BsMoonFill />;
-      case Theme.auto:
-      default:
-        return <RiSettings5Fill />;
+  useEffect(() => {
+    if (currentTheme === Theme.auto) {
+      return;
     }
+    document.documentElement.dataset.theme = currentTheme;
   }, [currentTheme]);
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const nextTheme = deriveNextTheme(currentTheme);
+    console.log(nextTheme);
+    setCurrentTheme(nextTheme);
+
+    fetch('/theme', {
+      method: 'POST',
+      body: JSON.stringify({ theme: nextTheme }),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
+  };
+
   const handleChange = () => {
-    toggle();
+    const nextTheme = deriveNextTheme(currentTheme);
+    setCurrentTheme(nextTheme);
+
     fetch('/theme', {
       method: 'POST',
       body: JSON.stringify({ theme: nextTheme }),
@@ -49,82 +71,31 @@ const ThemeToggle = () => {
   };
 
   return (
-    // <form onSubmit={onSubmit}>
-    //   <input type="hidden" value={nextTheme} name="next-theme" />
-    //   <button>toggle theme</button>
-    // </form>
-    <Dropdown size="sm" className="min-w-0 p-0">
-      <DropdownTrigger className="min-w-0">
-        <Button variant="faded" color="primary">
-          {selectedIcon}
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu
-        aria-label="Select light or dark mode"
-        variant="light"
-        disallowEmptySelection
-        selectionMode="single"
-        selectedKeys={selectedKeys}
-        onSelectionChange={handleSelectionChange}
-        className="w-auto"
+    <form onSubmit={handleSubmit}>
+      <input type="hidden" name="next-theme" />
+      <Button
+        color="primary"
+        variant="bordered"
+        className="hover:bg-transparent border-transparent min-w-0"
+        disableRipple
+        disableAnimation
+        type="submit"
       >
-        <DropdownItem
-          hideSelectedIcon
-          key={Theme.light}
-          className="pb-1 px-0 pt-0"
-          textValue={Theme.light}
-        >
-          <Button
-            color="default"
-            variant="light"
-            isIconOnly
-            aria-label={`${Theme.light} theme`}
-          >
-            <BsSunFill />
-          </Button>
-        </DropdownItem>
-        <DropdownItem
-          textValue={Theme.dark}
-          hideSelectedIcon
-          key={Theme.dark}
-          className="p-0"
-        >
-          <Button
-            color="default"
-            variant="light"
-            isIconOnly
-            aria-label={`${Theme.dark} theme`}
-          >
-            <BsMoonFill />
-          </Button>
-        </DropdownItem>
-        {/* <DropdownItem
-          hideSelectedIcon
-          textValue={Theme.auto}
-          key={Theme.auto}
-          className="pt-1 pb-0 px-0"
-        >
-          <Button
-            color="default"
-            variant="light"
-            isIconOnly
-            aria-label={`${Theme.auto} theme`}
-          >
-            <RiSettings5Fill />
-          </Button>
-        </DropdownItem> */}
-      </DropdownMenu>
-    </Dropdown>
+        <ThemeToggleIcon />
+      </Button>
+      {/* <button type="submit" className="text-primary-100">
+        <ThemeToggleIcon />
+      </button> */}
+    </form>
     // <Switch
-    //   // isSelected={theme === 'dark' && isClient} // Use isClient here to control the selected state - isMounted
-    //   isSelected
-    //   onChange={toggleTheme}
+    //   isSelected={currentTheme === 'dark'}
+    //   onChange={handleChange}
     //   size="lg"
-    //   color="success"
-    //   startContent={<BsSunFillFill />}
-    //   endContent={<FaMoon />}
-    //   disabled={!isClient}
-    //   className={!isClient ? 'cursor-not-allowed' : ''}
+    //   // color="success"
+    //   startContent={<BsSunFill />}
+    //   endContent={<BsMoonFill />}
+    //   // disabled={!isClient}
+    //   // className={!isClient ? 'cursor-not-allowed' : ''}
     // />
   );
 };
