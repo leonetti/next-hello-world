@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Providers from '@/app/providers';
-import siteConfig from '@config/site';
+import siteConfig from '@/config/site';
 import '@/app/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -43,6 +43,19 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
+      <head>
+        {/* used for light/dark theme toggle */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+                (function() {
+                  const theme = localStorage.getItem('theme') || 'light';
+                  document.documentElement.setAttribute('data-theme', theme);
+                })();
+              `,
+          }}
+        />
+      </head>
       <body className={inter.className}>
         <Providers>
           <main>{children}</main>

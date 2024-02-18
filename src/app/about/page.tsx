@@ -1,5 +1,5 @@
-import Header from '@components/Header';
-import Footer from '@components/Footer';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { Card, CardBody, Button } from '@nextui-org/react';
 import Image from 'next/image';
 
@@ -10,7 +10,7 @@ const About = () => {
     <div>
       <Header />
       <div className="flex justify-center px-4">
-        <Card className="py-4 max-w-full mx-auto my-10">
+        <Card className="py-4 max-w-xl mx-auto my-10">
           <CardBody className="overflow-visible py-2 text-balance">
             <div className="flex flex-col gap-6 items-center justify-center text-center">
               <Image
