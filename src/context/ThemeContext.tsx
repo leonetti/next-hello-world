@@ -1,17 +1,17 @@
 import { createContext } from 'react';
-import { type Theme } from '@/types/globals';
+import { type ThemeProps, Theme } from '@/types/globals';
 
 export const isTheme = (theme: unknown): theme is Theme =>
-  theme === 'auto' || theme === 'light' || theme === 'dark';
+  theme === Theme.auto || theme === Theme.light || theme === Theme.dark;
 
 type ThemeContextProps = {
-  currentTheme: Theme;
+  currentTheme: ThemeProps;
   toggle: () => void;
-  nextTheme: Theme;
+  nextTheme: ThemeProps;
 };
 
 export const ThemeContext = createContext<ThemeContextProps>({
-  currentTheme: 'auto',
+  currentTheme: Theme.auto,
   toggle: () => {},
-  nextTheme: 'auto',
+  nextTheme: Theme.auto,
 });

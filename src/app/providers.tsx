@@ -4,26 +4,26 @@ import { useState } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { ThemeContext } from '@/context/ThemeContext';
-import { type Theme } from '@/types/globals';
+import { Theme, type ThemeProps } from '@/types/globals';
 import { isTheme } from '@/context/ThemeContext';
 
 const deriveNextTheme = (currentTheme: Theme) => {
   if (typeof window !== 'undefined') {
     // Check if window is defined before accessing it
     switch (currentTheme) {
-      case 'light':
-        return 'dark';
-      case 'dark':
-        return 'light';
-      case 'auto':
+      case Theme.light:
+        return Theme.dark;
+      case Theme.dark:
+        return Theme.light;
+      case Theme.auto:
       default:
         return window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'light'
-          : 'dark';
+          ? Theme.light
+          : Theme.dark;
     }
   } else {
     // Fallback logic in case window is not defined
-    return 'auto'; // or any other default theme
+    return Theme.auto; // or any other default theme
   }
 };
 
@@ -31,12 +31,12 @@ const Providers = ({
   themeCookie,
   children,
 }: {
-  themeCookie: Theme;
+  themeCookie: ThemeProps;
   children: React.ReactNode;
 }) => {
   const router = useRouter();
-  const [theme, setTheme] = useState<Theme>(
-    isTheme(themeCookie) ? themeCookie : 'auto',
+  const [theme, setTheme] = useState(
+    isTheme(themeCookie) ? themeCookie : Theme.auto,
   );
   const nextTheme = deriveNextTheme(theme);
   const handleThemeToggle = () => {
