@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Providers from '@/app/providers';
 import siteConfig from '@/config/site';
+import { cookies } from 'next/headers';
 import '@/app/globals.css';
-import { getCookie } from 'cookies-next';
+import { Theme } from '@/types/globals';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -42,13 +43,13 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const theme = getCookie('theme') || 'light';
+  const cookieStore = cookies();
+  const themeCookie = (cookieStore.get('theme')?.value as Theme) ?? 'auto';
+
   return (
-    <html lang="en" data-theme={theme}>
+    <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <main>{children}</main>
-        </Providers>
+        <Providers themeCookie={themeCookie}>{children}</Providers>
       </body>
     </html>
   );

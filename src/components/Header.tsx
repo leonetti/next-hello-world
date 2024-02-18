@@ -15,8 +15,8 @@ import {
   Link,
   Button,
 } from '@nextui-org/react';
-import clsx from 'clsx';
 import siteConfig from '@/config/site';
+import clsx from 'clsx';
 
 const SiteLogo = () => {
   return (

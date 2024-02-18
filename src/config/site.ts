@@ -16,6 +16,14 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
+      label: 'Home',
+      href: '/',
+    },
+    {
+      label: 'About',
+      href: '/about',
+    },
+    {
       label: 'Profile',
       href: '/profile',
     },
